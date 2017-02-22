@@ -8,9 +8,6 @@ import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
 
-/**
- * Created by gigadot on 02-Feb-17.
- */
 public class Webapp {
 
     public static void main(String[] args) {

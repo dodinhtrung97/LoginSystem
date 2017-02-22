@@ -12,11 +12,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import io.muic.ooc.webapp.service.UserService;
 import org.apache.commons.lang.StringUtils;
 
 public class LoginServlet extends HttpServlet {
 
     private SecurityService securityService;
+    public static String currentUser;
+    public static String name;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,7 +36,9 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
             if (securityService.authenticate(username, password, request)) {
-                response.sendRedirect("/");
+                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
+                rd.include(request, response);
+                currentUser = username;
             } else {
                 String error = "Wrong username or password.";
                 request.setAttribute("error", error);
@@ -45,11 +51,6 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
             rd.include(request, response);
         }
-
-        // check username and password against database
-        // if valid then set username attribute to session via securityService
-        // else put error message to render error on the login form
-
     }
 
     public void setSecurityService(SecurityService securityService) {

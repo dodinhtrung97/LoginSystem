@@ -31,14 +31,20 @@ public class UserEditServlet extends HttpServlet {
 
         UserService userService = new UserService();
 
-        String username = request.getUserPrincipal().getName();
+        String id = request.getParameter("thisID");
         String name = request.getParameter("name");
         String password = request.getParameter("password");
 
         if (password == null) { password = ""; }
+        if (name == null) { name = ""; }
 
         Connection conn = userService.connectSQL();
 
-        userService.editUser(conn, username, name, password);
+        userService.editUser(conn, id, name, password);
+
+        String error = "Information changed!";
+        request.setAttribute("error", error);
+        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
+        rd.include(request, response);
     }
 }

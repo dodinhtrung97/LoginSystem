@@ -5,46 +5,85 @@
  */
 package io.muic.ooc.webapp.service;
 
+import java.io.IOException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 
-/**
- *
- * @author gigadot
- */
 public class SecurityService {
 
-    // userCredentials to make to MySQL later
-    private Map<String, String> userCredentials = new HashMap<String, String>() {{
-        put("admin", "123456");
-        put("muic", "1111");
-    }};
-    
+    private UserService userService = new UserService();
+    private Connection userCredentials = userService.connectSQL();
+
     public boolean isAuthorized(HttpServletRequest request) {
-        String username = (String) request.getSession().getAttribute("username");
-        String password = (String) request.getSession().getAttribute("password");
+        String id = (String) request.getSession().getAttribute("username");
 
         // do checking
-       return (username != null &&
-               userCredentials.containsKey(username) &&
-               userCredentials.get(username) == password);
+        System.out.println("Security Service is authorized");
+        return userService.userExist(userCredentials, id);
     }
-    
-    public boolean authenticate(String username, String password, HttpServletRequest request) {
-        String passwordInDB = userCredentials.get(username);
-        boolean isMatched = StringUtils.equals(password, passwordInDB);
-        if (isMatched) {
-            request.getSession().setAttribute("username", username);
-            return true;
-        } else {
-            return false;
+
+    /* For testing */
+    public void printDatabase(){
+        String query = "select * from account";
+
+        try {
+            Statement st = userCredentials.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()){
+                System.out.println(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+    /* Ends here */
     
-    public void logout(HttpServletRequest request) {
+    public boolean authenticate(String id, String password, HttpServletRequest request) {
+
+        String query = "select * from account where id  = ?";
+        String passwordInDB;
+
+        try {
+            PreparedStatement preparedStatement = userCredentials.prepareStatement(query);
+            preparedStatement.setString(1, id);
+            // do update
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                passwordInDB = rs.getString("password");
+            } else {
+                passwordInDB = null;
+            }
+
+            boolean isMatched = StringUtils.equals(password, passwordInDB);
+
+            if (isMatched) {
+                request.getSession().setAttribute("username", id);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Can't authenticate user");
+        }
+
+        return false;
+    }
+    
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         request.getSession().invalidate();
+        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
+        rd.include(request, response);
     }
     
 }

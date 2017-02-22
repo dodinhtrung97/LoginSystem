@@ -5,9 +5,8 @@
  */
 package io.muic.ooc.webapp;
 
-import io.muic.ooc.webapp.servlet.HomeServlet;
+import io.muic.ooc.webapp.servlet.*;
 import io.muic.ooc.webapp.service.SecurityService;
-import io.muic.ooc.webapp.servlet.LoginServlet;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 
@@ -22,6 +21,8 @@ public class ServletRouter {
     public void init(Context ctx) {
         initHome(ctx);
         initLogin(ctx);
+        initSignup(ctx);
+        initEdit(ctx);
     }
 
     private void initHome(Context ctx) {
@@ -36,5 +37,17 @@ public class ServletRouter {
         loginServlet.setSecurityService(securityService);
         Tomcat.addServlet(ctx, "LoginServlet", loginServlet);
         ctx.addServletMapping("/login", "LoginServlet");
+    }
+
+    private void initSignup(Context ctx) {
+        SignupServlet signupServlet = new SignupServlet();
+        Tomcat.addServlet(ctx, "SignupServlet", signupServlet);
+        ctx.addServletMapping("/signup", "SignupServlet");
+    }
+
+    private void initEdit(Context ctx) {
+        UserEditServlet userEditServlet = new UserEditServlet();
+        Tomcat.addServlet(ctx, "UserEditServlet", userEditServlet);
+        ctx.addServletMapping("/edit", "UserEditServlet");
     }
 }

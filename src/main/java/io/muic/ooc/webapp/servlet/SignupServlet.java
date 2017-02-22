@@ -35,11 +35,15 @@ public class SignupServlet extends HttpServlet {
 
         Connection conn = userService.connectSQL();
 
+        System.out.println("SignupServlet");
         boolean userExist = userService.userExist(conn, username);
         if (!userExist){
             userService.createUser(conn, username, password, name);
+            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
+            rd.include(request, response);
         } else {
-            System.out.println("This username already exists, please choose another");
+            String error = "This username already exists, please choose another";
+            request.setAttribute("error", error);
 
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/signup.jsp");
             rd.include(request, response);
