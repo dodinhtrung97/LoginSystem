@@ -40,15 +40,9 @@
             <td><%=rs.getString("name") %></td>
 
             <td>
-                <form action="/edit" method="get">
-                    <input type="hidden" name="userID"  value="<%=a%>">
-                    <input type="submit" name="editbtn" value="Edit">
-                </form>
-
                 <form action="/" method="get">
                     <input type="hidden" name="userID"  value="<%=a%>">
                     <input type="submit" name="deletebtn" value="Delete">
-
                 </form>
             </td>
         </tr>
@@ -69,9 +63,15 @@
         <input type="submit" name="adduser" value="Add User">
     </form>
 
+    <form action="/edit" method="get">
+            <input type="submit" name="edit" value="Edit">
+    </form>
+
     <form action="/" method="post">
         <br>
         <input type="submit" name="logoutbtn" value="Logout">
     </form>
+
+
 
 </html>

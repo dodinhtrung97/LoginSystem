@@ -51,19 +51,6 @@ public class HomeServlet extends HttpServlet {
                     rd.include(request, response);
                 }
             }
-
-            if (request.getParameter("editbtn") != null){
-                System.out.println("hello");
-                System.out.println(request.getParameter("selectedID"));
-                request.setAttribute("thisID", request.getParameter("selectedID"));
-                rd = request.getRequestDispatcher("WEB-INF/edit.jsp");
-                rd.include(request, response);
-            }
-
-            if (request.getParameter("info") != null){
-                rd = request.getRequestDispatcher("WEB-INF/edit.jsp");
-                rd.include(request, response);
-            }
         } else {
             response.sendRedirect("/login");
         }
@@ -74,8 +61,14 @@ public class HomeServlet extends HttpServlet {
         if (request.getParameter("logoutbtn") != null) {
             securityService.logout(request, response);
         }
+
         if (request.getParameter("adduser") != null){
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/signup.jsp");
+            rd.include(request, response);
+        }
+
+        if (request.getParameter("editbtn") != null){
+            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/edit.jsp");
             rd.include(request, response);
         }
 
