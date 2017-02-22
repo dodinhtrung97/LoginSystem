@@ -21,7 +21,7 @@
 
         <% try {
             Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/account";
+            String url = "jdbc:mysql://localhost:3306/ooc";
             String username = "root";
             String password = "dodinhtrung";
             String query = "SELECT * FROM account";
