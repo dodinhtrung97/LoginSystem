@@ -13,7 +13,7 @@ public class UserService {
 
     private final String DB_HOST = "localhost";
     private final String DB_PORT = "3306";
-    private final String DB_NAME = "ooc";
+    private final String DB_NAME = "account";
     private final String MY_DRIVER = "com.mysql.jdbc.Driver";
     private final String MY_USERNAME = "root";
     private final String MY_PASSWORD = "dodinhtrung";
