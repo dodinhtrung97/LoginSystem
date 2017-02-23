@@ -42,6 +42,14 @@ public class UserEditServlet extends HttpServlet {
 
         userService.editUser(conn, id, name, password);
 
+        /* For posting user information */
+        String info1 = "Your id is: " + LoginServlet.currentUserID;
+        String info2 = "Your name is: " + LoginServlet.currentUserName;
+
+        request.setAttribute("info1", info1);
+        request.setAttribute("info2", info2);
+        /* Ends here */
+
         String error = "Information changed!";
         request.setAttribute("error", error);
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");

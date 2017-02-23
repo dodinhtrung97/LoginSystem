@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import org.apache.commons.lang.StringUtils;
 
 public class SignupServlet extends HttpServlet {
 
@@ -37,7 +37,14 @@ public class SignupServlet extends HttpServlet {
 
         System.out.println("SignupServlet");
         boolean userExist = userService.userExist(conn, username);
-        if (!userExist){
+
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(password) || StringUtils.isBlank(name)) {
+            String error = "Please don't leave any blank field!";
+            request.setAttribute("error", error);
+
+            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/signup.jsp");
+            rd.include(request, response);
+        } else if (!userExist){
             userService.createUser(conn, username, password, name);
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
             rd.include(request, response);

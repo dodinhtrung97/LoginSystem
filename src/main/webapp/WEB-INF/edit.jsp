@@ -14,13 +14,14 @@
             <input type="text" name="id" value="">
             <br/>
 
+            Enter a new password (or leave blank to keep password the same):<br/>
+            <input type="text" name="password" value="">
+            <br/>
+
             Name:<br/>
             <input type="text" name="name" value="">
             <br/>
 
-            Enter a new password (or leave blank to keep password the same):<br/>
-            <input type="text" name="password" value="">
-            <br/>
             <br><br>
             <input type="submit" name="submitbtn" value="Change User Profile">
 

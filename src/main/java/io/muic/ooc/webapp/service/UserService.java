@@ -5,6 +5,8 @@
  */
 package io.muic.ooc.webapp.service;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.sql.*;
 
 public class UserService {
@@ -37,14 +39,6 @@ public class UserService {
         return null;
     }
 
-    public int hash(String data){
-        int hash = 1;
-        for (int i = 0; i < data.length(); i++) {
-            hash = hash*2 + data.charAt(i);
-        }
-        return hash;
-    }
-
     public void editUser(Connection conn, String id, String name, String password){
 
         String query;
@@ -62,16 +56,16 @@ public class UserService {
                 query = "update account set password = ? where id = ?";
 
                 PreparedStatement preparedStatement = conn.prepareStatement(query);
-                preparedStatement.setString(1, password);
+                preparedStatement.setString(1, hash(password));
                 preparedStatement.setString(2, id);
                 // do update
                 preparedStatement.executeUpdate();
             } else {
-                query = "UPDATE account SET password = ?, name = ? WHERE id = ?";
+                query = "UPDATE account SET name = ?, password = ? WHERE id = ?";
 
                 PreparedStatement preparedStatement = conn.prepareStatement(query);
                 preparedStatement.setString(1, name);
-                preparedStatement.setString(2, password);
+                preparedStatement.setString(2, hash(password));
                 preparedStatement.setString(3, id);
 
                 // do update
@@ -104,12 +98,12 @@ public class UserService {
         try {
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, id);
-            preparedStatement.setString(2, password);
+            preparedStatement.setString(2, hash(password));
             preparedStatement.setString(3, name);
             // do update
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Can't create user");
+            System.out.println("Can't create user" + e);
         }
     }
 
@@ -135,6 +129,12 @@ public class UserService {
         } catch (SQLException e) {
             System.out.println("Can't check");
         } return false;
+    }
+
+    public String hash(String password){
+        String salt = "salt";
+
+        return DigestUtils.sha256Hex(password+salt);
     }
 
 }

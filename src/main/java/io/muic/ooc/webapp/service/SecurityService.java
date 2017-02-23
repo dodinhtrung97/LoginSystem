@@ -64,7 +64,7 @@ public class SecurityService {
                 passwordInDB = null;
             }
 
-            boolean isMatched = StringUtils.equals(password, passwordInDB);
+            boolean isMatched = StringUtils.equals(userService.hash(password), passwordInDB);
 
             if (isMatched) {
                 request.getSession().setAttribute("username", id);

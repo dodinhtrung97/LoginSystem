@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class Webapp {
 
@@ -20,6 +21,10 @@ public class Webapp {
 
         ServletRouter servletRouter = new ServletRouter();
         servletRouter.setSecurityService(securityService);
+
+        /* For initial admin account
+        System.out.println(DigestUtils.sha256Hex("root"+"salt"));
+         */
 
         Context ctx;
         try {
