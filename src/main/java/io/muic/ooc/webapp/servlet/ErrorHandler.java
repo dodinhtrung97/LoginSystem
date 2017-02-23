@@ -31,11 +31,9 @@ public class ErrorHandler extends HttpServlet {
             request.setAttribute("info2", info2);
             /* Ends here */
 
-            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
-            rd.forward(request, response);
+            response.sendRedirect("/index.jsp");
         } else {
-            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
-            rd.forward(request, response);
+            response.sendRedirect("/login");
         }
     }
 }
