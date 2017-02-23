@@ -43,9 +43,9 @@
             <td><%=rs.getString("name") %></td>
 
             <td>
-                <form action="/" method="post">
+                <form name="form" action="/" method="post">
                     <input type="hidden" name="userID"  value="<%=a%>">
-                    <input type="submit" name="deletebtn" value="Delete">
+                    <input type="submit" onclick="return confirm('Are you sure?')" name="deletebtn" value="Delete">
                 </form>
             </td>
         </tr>

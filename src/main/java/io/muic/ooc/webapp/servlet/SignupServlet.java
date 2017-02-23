@@ -45,6 +45,14 @@ public class SignupServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/signup.jsp");
             rd.include(request, response);
         } else if (!userExist){
+            /* For posting user information */
+            String info1 = "Your id is: " + LoginServlet.currentUserID;
+            String info2 = "Your name is: " + LoginServlet.currentUserName;
+
+            request.setAttribute("info1", info1);
+            request.setAttribute("info2", info2);
+            /* Ends here */
+
             userService.createUser(conn, username, password, name);
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
             rd.include(request, response);

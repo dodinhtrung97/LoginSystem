@@ -68,13 +68,7 @@ public class HomeServlet extends HttpServlet {
 
             if (!id.equals(LoginServlet.currentUserID)) {
 
-                int dialogButton = JOptionPane.YES_NO_OPTION;
-
-                int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to delete this user?", "Confirmation", dialogButton);
-
-                if(dialogResult == 0) {
-                    userService.deleteUser(conn, id);
-                }
+                userService.deleteUser(conn, id);
 
                 /* For posting user information */
                 String info1 = "Your id is: " + LoginServlet.currentUserID;
