@@ -5,6 +5,7 @@
     <artifactId>hello-webapp</artifactId>
     <version>1.0</version>
     <name>Hello Webapp</name>
+    <packaging>war</packaging>
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
