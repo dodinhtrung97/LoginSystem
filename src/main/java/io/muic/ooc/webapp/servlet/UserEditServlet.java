@@ -31,8 +31,8 @@ public class UserEditServlet extends HttpServlet {
 
         UserService userService = new UserService();
 
-        String name = request.getParameter("name");
         String id = request.getParameter("id");
+        String name = request.getParameter("name");
         String password = request.getParameter("password");
 
         if (password == null) { password = ""; }

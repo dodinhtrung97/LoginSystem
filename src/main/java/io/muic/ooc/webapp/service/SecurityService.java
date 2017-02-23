@@ -78,6 +78,28 @@ public class SecurityService {
 
         return false;
     }
+
+    public String userName(String id){
+
+        String query = "SELECT * from account WHERE id = ?";
+
+        try {
+            PreparedStatement preparedStatement = userCredentials.prepareStatement(query);
+            preparedStatement.setString(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            System.out.println(id);
+
+            while (resultSet.next()){
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            System.out.println("Can't check");
+        }
+
+        return "";
+    }
     
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

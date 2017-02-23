@@ -31,26 +31,17 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean authorized = securityService.isAuthorized(request);
         if (authorized) {
-            // do MVC in here
+
+            /* For posting user information */
+            String info1 = "Your id is: " + LoginServlet.currentUserID;
+            String info2 = "Your name is: " + LoginServlet.currentUserName;
+
+            request.setAttribute("info1", info1);
+            request.setAttribute("info2", info2);
+            /* Ends here */
+
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
             rd.include(request, response);
-
-            if (request.getParameter("deletebtn") != null){
-                String id = request.getParameter("userID");
-
-                if (!id.equals(LoginServlet.currentUser)) {
-                    int dialogButton = JOptionPane.YES_NO_OPTION;
-                    int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to delete this user?", "Confirmation", dialogButton);
-                    if(dialogResult == 0) {
-                        userService.deleteUser(conn, id);
-                    } else {}
-
-                } else {
-                    String error = "You can't remove your own account";
-                    request.setAttribute("error", error);
-                    rd.include(request, response);
-                }
-            }
         } else {
             response.sendRedirect("/login");
         }
@@ -70,6 +61,47 @@ public class HomeServlet extends HttpServlet {
         if (request.getParameter("editbtn") != null){
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/edit.jsp");
             rd.include(request, response);
+        }
+
+        if (request.getParameter("deletebtn") != null){
+            String id = request.getParameter("userID");
+
+            if (!id.equals(LoginServlet.currentUserID)) {
+
+                int dialogButton = JOptionPane.YES_NO_OPTION;
+
+                int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to delete this user?", "Confirmation", dialogButton);
+
+                if(dialogResult == 0) {
+                    userService.deleteUser(conn, id);
+                }
+
+                /* For posting user information */
+                String info1 = "Your id is: " + LoginServlet.currentUserID;
+                String info2 = "Your name is: " + LoginServlet.currentUserName;
+
+                request.setAttribute("info1", info1);
+                request.setAttribute("info2", info2);
+                /* Ends here */
+
+                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
+                rd.include(request, response);
+
+            } else {
+
+                /* For posting user information */
+                String info1 = "Your id is: " + LoginServlet.currentUserID;
+                String info2 = "Your name is: " + LoginServlet.currentUserName;
+
+                request.setAttribute("info1", info1);
+                request.setAttribute("info2", info2);
+                /* Ends here */
+
+                String error = "You can't remove your own account";
+                request.setAttribute("error", error);
+                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
+                rd.include(request, response);
+            }
         }
 
     }

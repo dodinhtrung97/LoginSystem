@@ -11,7 +11,7 @@ public class UserService {
 
     private final String DB_HOST = "localhost";
     private final String DB_PORT = "3306";
-    private final String DB_NAME = "ooc";
+    private final String DB_NAME = "account";
     private final String MY_DRIVER = "com.mysql.jdbc.Driver";
     private final String MY_USERNAME = "root";
     private final String MY_PASSWORD = "dodinhtrung";
@@ -45,37 +45,37 @@ public class UserService {
         return hash;
     }
 
-    public void editUser(Connection conn, String username, String name, String password){
+    public void editUser(Connection conn, String id, String name, String password){
 
         String query;
-
+        System.out.println(id + " " + name + " " + password);
         try {
             if (password.equals("")) {
                 query = "update account set name = ? where id = ?";
 
                 PreparedStatement preparedStatement = conn.prepareStatement(query);
                 preparedStatement.setString(1, name);
-                preparedStatement.setString(2, username);
+                preparedStatement.setString(2, id);
                 // do update
-                preparedStatement.executeUpdate(query);
+                preparedStatement.executeUpdate();
             } else if (name.equals("")){
                 query = "update account set password = ? where id = ?";
 
                 PreparedStatement preparedStatement = conn.prepareStatement(query);
                 preparedStatement.setString(1, password);
-                preparedStatement.setString(2, username);
+                preparedStatement.setString(2, id);
                 // do update
-                preparedStatement.executeUpdate(query);
+                preparedStatement.executeUpdate();
             } else {
                 query = "UPDATE account SET password = ?, name = ? WHERE id = ?";
 
                 PreparedStatement preparedStatement = conn.prepareStatement(query);
                 preparedStatement.setString(1, name);
                 preparedStatement.setString(2, password);
-                preparedStatement.setString(3, username);
+                preparedStatement.setString(3, id);
 
                 // do update
-                preparedStatement.executeUpdate(query);
+                preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             System.out.println("Can't edit user information" + e);
@@ -136,4 +136,5 @@ public class UserService {
             System.out.println("Can't check");
         } return false;
     }
+
 }

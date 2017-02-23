@@ -7,6 +7,9 @@
 <html>
     <body>
     <h2>Users List</h2>
+    <p>${info1}</p>
+    <p>${info2}</p>
+    <p>${error}</p>
     </body>
 
     <form method="get">
@@ -21,7 +24,7 @@
 
         <% try {
             Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/ooc";
+            String url = "jdbc:mysql://localhost:3306/account";
             String username = "root";
             String password = "dodinhtrung";
             String query = "SELECT * FROM account";
@@ -40,7 +43,7 @@
             <td><%=rs.getString("name") %></td>
 
             <td>
-                <form action="/" method="get">
+                <form action="/" method="post">
                     <input type="hidden" name="userID"  value="<%=a%>">
                     <input type="submit" name="deletebtn" value="Delete">
                 </form>

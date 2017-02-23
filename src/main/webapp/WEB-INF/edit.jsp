@@ -10,19 +10,19 @@
 
         <form action="/edit" method="post">
 
-            ID<br/>
-            <P><input type="text" name="name">
+            ID of the user you want to change information:<br/>
+            <input type="text" name="id" value="">
             <br/>
 
-            Name<br/>
-            <P><input type="text" name="id" value="">
+            Name:<br/>
+            <input type="text" name="name" value="">
             <br/>
 
-            Enter a new password (or leave blank to keep password the same)<br/>
-            <P><input type="text" name="password" value="">
+            Enter a new password (or leave blank to keep password the same):<br/>
+            <input type="text" name="password" value="">
             <br/>
             <br><br>
-            <P><input type="submit" name="submitbtn" value="Change User Profile">
+            <input type="submit" name="submitbtn" value="Change User Profile">
 
          </form>
 
