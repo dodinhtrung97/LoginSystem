@@ -16,15 +16,13 @@ public class Webapp {
         // tomCat Connection
         String docBase = "src/main/webapp/";
         Tomcat tomcat = new Tomcat();
-        tomcat.setPort(8082);
+        tomcat.setPort(80);
         SecurityService securityService = new SecurityService();
 
         ServletRouter servletRouter = new ServletRouter();
         servletRouter.setSecurityService(securityService);
 
-        /* For initial admin account
         System.out.println(DigestUtils.sha256Hex("root"+"salt"));
-         */
 
         Context ctx;
         try {
